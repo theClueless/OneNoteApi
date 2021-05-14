@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneNoteApi", "OneNote\OneNoteApi.csproj", "{C876D81A-577C-4FE0-A125-F4046993A2AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteApiConsole", "OneNoteApiConsole\OneNoteApiConsole.csproj", "{86AB6BD1-B201-413F-A76B-01D5EB86C7BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C876D81A-577C-4FE0-A125-F4046993A2AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C876D81A-577C-4FE0-A125-F4046993A2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C876D81A-577C-4FE0-A125-F4046993A2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C876D81A-577C-4FE0-A125-F4046993A2AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86AB6BD1-B201-413F-A76B-01D5EB86C7BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86AB6BD1-B201-413F-A76B-01D5EB86C7BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86AB6BD1-B201-413F-A76B-01D5EB86C7BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86AB6BD1-B201-413F-A76B-01D5EB86C7BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E4EC2A3-694C-4FA4-85D5-853A1AADC29B}
+	EndGlobalSection
+EndGlobal
