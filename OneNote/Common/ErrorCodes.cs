@@ -1,4 +1,4 @@
-﻿namespace OneNoteApi
+﻿namespace OneNoteApi.Common
 {
     internal static class ErrorCodes
     {
