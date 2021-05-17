@@ -13,13 +13,13 @@ using Microsoft.Office.Interop.OneNote;
 namespace OneNoteApi
 {
     /// <summary>
-    /// Wraps the OneNote interop API
+    /// Wraps the OneNote interop API, for easier usage use <see cref="OneNoteApi.OneNote"/> 
     /// </summary>
     /// <see cref="https://docs.microsoft.com/en-us/office/client-developer/onenote/application-interface-onenote"/>
     public class OneNoteRaw : IDisposable
     {
-        private IApplication onenote;
-        private bool disposed;
+        private IApplication _onenote;
+        private bool _disposed;
 
         // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
         // Constructors...
@@ -29,20 +29,20 @@ namespace OneNoteApi
         /// </summary>
         public OneNoteRaw()
         {
-            onenote = new Application();
+            _onenote = new Application();
         }
 
         #region Lifecycle
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    onenote = null;
+                    _onenote = null;
                 }
 
-                disposed = true;
+                _disposed = true;
             }
         }
 
@@ -63,7 +63,7 @@ namespace OneNoteApi
         /// <param name="openNewWindow">should open a new window</param>
         public void NavigateTo(string hierarchyObjectId, string objectId = null, bool openNewWindow = false)
         {
-            onenote.NavigateTo(hierarchyObjectId, objectId,openNewWindow);
+            _onenote.NavigateTo(hierarchyObjectId, objectId,openNewWindow);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace OneNoteApi
         /// <returns>A Section element with Page children</returns>
         public XElement GetPageHierarchy(string id = null)
         {
-            onenote.GetHierarchy(id, HierarchyScope.hsPages, out var xml, XMLSchema.xs2013);
+            _onenote.GetHierarchy(id, HierarchyScope.hsPages, out var xml, XMLSchema.xs2013);
             if (!string.IsNullOrEmpty(xml))
             {
                 return XElement.Parse(xml);

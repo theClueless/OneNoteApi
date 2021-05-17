@@ -7,9 +7,10 @@ namespace OneNoteApiConsole
     {
         static void Main(string[] args)
         {
-            using (var one = new OneNote())
+            var one = new OneNote();
+            foreach (var pageHierarchyModel in one.PageHierarchyService.GetElements())
             {
-                Console.WriteLine(one.CurrentPageId);
+                Console.WriteLine($"{pageHierarchyModel.Name}:{pageHierarchyModel.HierarchyType}:{pageHierarchyModel.PageLevel.GetValueOrDefault()}");
             }
         }
     }

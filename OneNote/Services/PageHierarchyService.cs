@@ -3,7 +3,7 @@ using OneNoteApi.Hierarchy;
 
 namespace OneNoteApi.Services
 {
-    public class PageHierarchyService
+    public class PageHierarchyService : IOneNoteService
     {
         public IEnumerable<PageHierarchyModel> GetElements(string id = null)
         {

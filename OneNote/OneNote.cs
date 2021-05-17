@@ -9,7 +9,9 @@ namespace OneNoteApi
     public class OneNote
     {
         private readonly Lazy<PageHierarchyService> _pageHierarchyService = new();
+        private readonly Lazy<PageNavigatorService> _pageNavigatorService = new();
 
         public PageHierarchyService PageHierarchyService => _pageHierarchyService.Value;
+        public PageNavigatorService PageNavigatorService => _pageNavigatorService.Value;
     }
 }
