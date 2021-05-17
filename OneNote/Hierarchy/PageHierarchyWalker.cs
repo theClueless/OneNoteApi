@@ -32,15 +32,7 @@ namespace OneNoteApi.Hierarchy
 
                 var createdOn = OneNoteXmlHelper.GetAttribute(xElement, KnownAttributes.CreatedOnAttribute);
                 var lastModified = OneNoteXmlHelper.GetAttribute(xElement, KnownAttributes.LastModifiedOnAttribute);
-                yield return new PageHierarchyModel()
-                {
-                    Name = name,
-                    Id = id,
-                    CreatedOn = createdOn,
-                    LastModifiedTime = lastModified,
-                    PageLevel = pageLevel,
-                    HierarchyType = hierarchyType
-                };
+                yield return new PageHierarchyModel(name, id, createdOn, lastModified, pageLevel, hierarchyType);
             }
         }
     }
@@ -51,7 +43,7 @@ namespace OneNoteApi.Hierarchy
         {
             var value = element?.Attribute("pageLevel")?.Value;
 
-            if (value != null && Int32.TryParse(value, out int res))
+            if (value != null && int.TryParse(value, out int res))
             {
                 return res;
             }
