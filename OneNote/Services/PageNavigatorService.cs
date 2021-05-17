@@ -2,7 +2,13 @@
 
 namespace OneNoteApi.Services
 {
-    public class PageNavigatorService : IOneNoteService
+    public interface IPageNavigatorService : IOneNoteService
+    {
+        void NavigateTo(PageHierarchyModel model);
+        void NavigateTo(string pageId, string elementId = null, bool shouldOpenNewWindow = false);
+    }
+
+    public class PageNavigatorService : IPageNavigatorService
     {
         public void NavigateTo(PageHierarchyModel model)
         {

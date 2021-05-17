@@ -6,12 +6,15 @@ using OneNoteApi.Services;
 
 namespace OneNoteApi
 {
+    /// <summary>
+    /// Just a wrapper entry for the different services of the API
+    /// </summary>
     public class OneNote
     {
-        private readonly Lazy<PageHierarchyService> _pageHierarchyService = new();
-        private readonly Lazy<PageNavigatorService> _pageNavigatorService = new();
+        private readonly Lazy<IPageHierarchyService> _pageHierarchyService = new();
+        private readonly Lazy<IPageNavigatorService> _pageNavigatorService = new();
 
-        public PageHierarchyService PageHierarchyService => _pageHierarchyService.Value;
-        public PageNavigatorService PageNavigatorService => _pageNavigatorService.Value;
+        public IPageHierarchyService PageHierarchyService => _pageHierarchyService.Value;
+        public IPageNavigatorService PageNavigatorService => _pageNavigatorService.Value;
     }
 }

@@ -3,9 +3,14 @@ using OneNoteApi.Hierarchy;
 
 namespace OneNoteApi.Services
 {
-    public class PageHierarchyService : IOneNoteService
+    public interface IPageHierarchyService : IOneNoteService
     {
-        public IEnumerable<PageHierarchyModel> GetElements(string id = null)
+        IEnumerable<PageHierarchyModel> GetPages(string id = null);
+    }
+
+    public class PageHierarchyService : IPageHierarchyService
+    {
+        public IEnumerable<PageHierarchyModel> GetPages(string id = null)
         {
             using var oneNoteRaw = new OneNoteRaw();
             var xml = oneNoteRaw.GetPageHierarchy(id);
