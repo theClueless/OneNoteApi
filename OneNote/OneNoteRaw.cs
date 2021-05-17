@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Office.Interop.OneNote;
+using OneNoteApi.Common;
 
 namespace OneNoteApi
 {
@@ -72,12 +73,27 @@ namespace OneNoteApi
         /// <returns>A Section element with Page children</returns>
         public XElement GetPageHierarchy(string id = null)
         {
-            _onenote.GetHierarchy(id, HierarchyScope.hsPages, out var xml, XMLSchema.xs2013);
-            if (!string.IsNullOrEmpty(xml))
+            try
             {
-                return XElement.Parse(xml);
-            }
+                _onenote.GetHierarchy(id, HierarchyScope.hsPages, out var xml, XMLSchema.xs2013);
+                if (!string.IsNullOrEmpty(xml))
+                {
+                    return XElement.Parse(xml);
+                }
 
+            }
+            catch (Exception e)
+            {
+                var oneNote = ExceptionHelper.TryToWrap(e);
+                if (oneNote != null)
+                {
+                    throw oneNote;
+                }
+
+                throw;
+            }
+            
+            
             return null;
         }
 

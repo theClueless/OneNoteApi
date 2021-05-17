@@ -10,6 +10,11 @@ namespace OneNoteApi.Services
 
     public class PageHierarchyService : IPageHierarchyService
     {
+        /// <summary>
+        /// Gets the specified section and its child page hierarchy when null return all notebooks
+        /// </summary>
+        /// <param name="id">the id of the notebook\section to get the hierarchy from or null for all notebooks</param>
+        /// <returns>A Section element with Page children</returns>
         public IEnumerable<PageHierarchyModel> GetPages(string id = null)
         {
             using var oneNoteRaw = new OneNoteRaw();
