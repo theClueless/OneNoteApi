@@ -10,6 +10,13 @@ namespace OneNoteApi.Services
 
     public class PageHierarchyService : IPageHierarchyService
     {
+        private readonly IOneNoteRawFactory _factory;
+
+        public PageHierarchyService(IOneNoteRawFactory factory)
+        {
+            _factory = factory;
+        }
+
         /// <summary>
         /// Gets the specified section and its child page hierarchy when null return all notebooks
         /// </summary>
@@ -17,7 +24,7 @@ namespace OneNoteApi.Services
         /// <returns>A Section element with Page children</returns>
         public IEnumerable<PageHierarchyModel> GetPages(string id = null)
         {
-            using var oneNoteRaw = new OneNoteRaw();
+            using var oneNoteRaw = _factory.GetNew();
             var xml = oneNoteRaw.GetPageHierarchy(id);
             var walker = new PageHierarchyWalker(xml);
             return walker.GetElements();

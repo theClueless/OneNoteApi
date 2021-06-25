@@ -13,11 +13,30 @@ using OneNoteApi.Common;
 
 namespace OneNoteApi
 {
+    public interface IOneNoteRaw : IDisposable
+    {
+        /// <summary>
+        /// Navigate to a page (And an object inside of it)
+        /// </summary>
+        /// <param name="hierarchyObjectId">the page to navigate to</param>
+        /// <param name="objectId">an optional parameter of an object inside the page to navigate to</param>
+        /// <param name="openNewWindow">should open a new window</param>
+        void NavigateTo(string hierarchyObjectId, string objectId = null, bool openNewWindow = false);
+
+        /// <summary>
+        /// Gets the specified section and its child page hierarchy when null return all notebooks
+        /// </summary>
+        /// <returns>A Section element with Page children</returns>
+        XElement GetPageHierarchy(string id = null);
+
+        XElement GetPageContent(string id, PageDetail detail);
+    }
+
     /// <summary>
     /// Wraps the OneNote interop API, for easier usage use <see cref="OneNoteApi.OneNote"/> 
     /// </summary>
     /// <see cref="https://docs.microsoft.com/en-us/office/client-developer/onenote/application-interface-onenote"/>
-    public class OneNoteRaw : IDisposable
+    public class OneNoteRaw : IDisposable, IOneNoteRaw
     {
         private IApplication _onenote;
         private bool _disposed;
@@ -64,7 +83,7 @@ namespace OneNoteApi
         /// <param name="openNewWindow">should open a new window</param>
         public void NavigateTo(string hierarchyObjectId, string objectId = null, bool openNewWindow = false)
         {
-            _onenote.NavigateTo(hierarchyObjectId, objectId,openNewWindow);
+            _onenote.NavigateTo(hierarchyObjectId, objectId, openNewWindow);
         }
 
         /// <summary>
@@ -92,10 +111,49 @@ namespace OneNoteApi
 
                 throw;
             }
-            
-            
+
+
             return null;
         }
 
+        public XElement GetPageContent(string id, PageDetail detail)
+        {
+            try
+            {
+                _onenote.GetPageContent(id, out string xml, (PageInfo)detail, XMLSchema.xs2013);
+                if (!string.IsNullOrEmpty(xml))
+                {
+                    return XElement.Parse(xml);
+                }
+
+            }
+            catch (Exception e)
+            {
+                var oneNote = ExceptionHelper.TryToWrap(e);
+                if (oneNote != null)
+                {
+                    throw oneNote;
+                }
+
+                throw;
+            }
+
+            return null;
+        }
+
+
+
+    }
+
+    public enum PageDetail
+    {
+        All = PageInfo.piAll,
+        Basic = PageInfo.piBasic,
+        BinaryData = PageInfo.piBinaryData,
+        BinaryDataFileType = PageInfo.piBinaryDataFileType,
+        BinaryDataSelection = PageInfo.piBinaryDataSelection,
+        FileType = PageInfo.piFileType,
+        Selection = PageInfo.piSelection,
+        SelectionFileType = PageInfo.piSelectionFileType
     }
 }

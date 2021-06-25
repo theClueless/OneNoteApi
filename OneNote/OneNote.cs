@@ -12,16 +12,21 @@ namespace OneNoteApi
     /// </summary>
     public class OneNote : IOneNote
     {
-        private readonly Lazy<IPageHierarchyService> _pageHierarchyService = new Lazy<IPageHierarchyService>(() => new PageHierarchyService(), LazyThreadSafetyMode.PublicationOnly);
-        private readonly Lazy<IPageNavigatorService> _pageNavigatorService = new Lazy<IPageNavigatorService>(() => new PageNavigatorService(), LazyThreadSafetyMode.PublicationOnly);
+        private readonly Lazy<IPageHierarchyService> _pageHierarchyService = new Lazy<IPageHierarchyService>(() => new PageHierarchyService(new OneNoteRawFactory()), LazyThreadSafetyMode.PublicationOnly);
+        private readonly Lazy<IPageNavigatorService> _pageNavigatorService = new Lazy<IPageNavigatorService>(() => new PageNavigatorService(new OneNoteRawFactory()), LazyThreadSafetyMode.PublicationOnly);
+        private readonly Lazy<IPageContentService> _pageContentService = new Lazy<IPageContentService>(() => new PageContentService(new OneNoteRawFactory()),  LazyThreadSafetyMode.PublicationOnly);
 
         public IPageHierarchyService PageHierarchyService => _pageHierarchyService.Value;
         public IPageNavigatorService PageNavigatorService => _pageNavigatorService.Value;
+
+        public IPageContentService PageContentService => _pageContentService.Value;
     }
 
     public interface IOneNote
     {
         public IPageHierarchyService PageHierarchyService {get;}
         public IPageNavigatorService PageNavigatorService { get; }
+        public IPageContentService PageContentService { get; }
+
     }
 }

@@ -10,6 +10,13 @@ namespace OneNoteApi.Services
 
     public class PageNavigatorService : IPageNavigatorService
     {
+        private readonly IOneNoteRawFactory _oneNoteRawFactory;
+
+        public PageNavigatorService(IOneNoteRawFactory oneNoteRawFactory)
+        {
+            _oneNoteRawFactory = oneNoteRawFactory;
+        }
+
         public void NavigateTo(PageHierarchyModel model)
         {
             NavigateTo(model.Id);
@@ -17,7 +24,7 @@ namespace OneNoteApi.Services
 
         public void NavigateTo(string pageId, string elementId = null, bool shouldOpenNewWindow = false)
         {
-            using var oneNoteRaw = new OneNoteRaw();
+            using var oneNoteRaw = _oneNoteRawFactory.GetNew();
             oneNoteRaw.NavigateTo(pageId, elementId, shouldOpenNewWindow);
         }
     }
