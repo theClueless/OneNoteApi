@@ -66,7 +66,7 @@ namespace OneNoteApi.Mine
                 { // has tag
                     if (!tag.IsCompleted)
                     { // collect OE
-                        MoveToNewToday.Add(todoOetodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildtodoOeChildChild.Clone());
+                        MoveToNewToday.Add(todoOeChild.Clone());
                     }
                 }
             }
@@ -75,17 +75,21 @@ namespace OneNoteApi.Mine
             foreach (var xElement in todayPage.Root.Descendants(PageElementTypes.Tag))
             {
                 var tag = new Tag(xElement);
-                if (tag.TagType == KnownTags.ToDoTag)
+                if (tag.TagType == KnownTags.ToDoTagIndex)
                 {
-                    tag.UpdateTagType(tag.IsCompleted ? KnownTags.HappySmilyTag : KnownTags.SadSmilyTag );
+                    tag.UpdateTagType(tag.IsCompleted ? KnownTags.HappySmilyTagIndex : KnownTags.SadSmilyTagIndex );
                     tag.Complete();
                 }
             }
 
+            // update TagDef
+            todayPage.AddOrUpdateTagDefinition(KnownTags.HappySmilyTag);
+            todayPage.AddOrUpdateTagDefinition(KnownTags.SadSmilyTag);
+
             _oneNote.PageContentService.UpdatePageContent(todayPage,true);
             return MoveToNewToday;
         }
-Contains  private OE FindTodoSection(Page todayPage)
+         private OE FindTodoSection(Page todayPage)
         {
             var todoText = todayPage.Root.Descendants(PageElementTypes.Text).FirstOrDefault(x => x.Value.Contains("To Do - "));
 //            todayPage.Root.Descendants(PageElementTypes.Text).FirstOrDefault(x => x.Value == @"<![CDATA[<span

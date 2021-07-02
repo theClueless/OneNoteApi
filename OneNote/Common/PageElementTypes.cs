@@ -10,6 +10,7 @@ namespace OneNoteApi.Common
         public const string OeName = "OE";
         public const string OeChildrenName = "OEChildren";
         public const string TagName =  "Tag";
+        public const string TagDefName = "TagDef";
 
 
         static PageElementTypes()
@@ -19,11 +20,13 @@ namespace OneNoteApi.Common
             Oe = oneNoteNamespace + OeName;
             OeChildren = oneNoteNamespace + OeChildrenName;
             Tag = oneNoteNamespace + TagName;
+            TagDef = oneNoteNamespace + TagDefName;
         }
 
         public static XName Text { get; }
         public static XName Oe { get; }
         public static XName OeChildren { get; }
         public static XName Tag { get; }
+        public static XName TagDef { get; }
     }
 }

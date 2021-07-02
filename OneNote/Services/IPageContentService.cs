@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
 using OneNoteApi.Hierarchy;
 using OneNoteApi.PageContent;
 
@@ -31,7 +32,7 @@ namespace OneNoteApi.Services
         {
             using var api = _factory.GetNew();
             var content = page.Root.ToString(SaveOptions.DisableFormatting);
-            api.UpdatePageContent(content, force);
+            api.UpdatePageContent(content, force, DateTime.MinValue);
         }
     }
 }
