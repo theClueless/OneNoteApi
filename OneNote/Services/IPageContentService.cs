@@ -1,4 +1,5 @@
-﻿using OneNoteApi.Hierarchy;
+﻿using System.Xml.Linq;
+using OneNoteApi.Hierarchy;
 using OneNoteApi.PageContent;
 
 namespace OneNoteApi.Services
@@ -6,6 +7,8 @@ namespace OneNoteApi.Services
     public interface IPageContentService : IOneNoteService
     {
         Page GetPageContent(PageHierarchyModel model, PageDetail detail = PageDetail.Basic);
+
+        void UpdatePageContent(Page page, bool force = false);
     }
 
     public class PageContentService : IPageContentService
@@ -22,6 +25,13 @@ namespace OneNoteApi.Services
             using var api = _factory.GetNew();
             var xml = api.GetPageContent(model.Id, detail);
             return new Page(xml);
+        }
+
+        public void UpdatePageContent(Page page, bool force = false)
+        {
+            using var api = _factory.GetNew();
+            var content = page.Root.ToString(SaveOptions.DisableFormatting);
+            api.UpdatePageContent(content, force);
         }
     }
 }

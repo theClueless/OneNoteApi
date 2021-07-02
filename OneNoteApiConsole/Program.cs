@@ -3,6 +3,7 @@ using System.Linq;
 using OneNoteApi;
 using OneNoteApi.Common;
 using OneNoteApi.Hierarchy;
+using OneNoteApi.Mine;
 
 namespace OneNoteApiConsole
 {
@@ -10,19 +11,29 @@ namespace OneNoteApiConsole
     {
         static void Main(string[] args)
         {
-            var one = new OneNote();
-            int i = 0;
+            //var one = new OneNote();
+            //int i = 0;
 
-            var page = one.PageHierarchyService.GetPages().FirstOrDefault(x => x.HierarchyType == HierarchyType.Page);
-            var content = one.PageContentService.GetPageContent(page);
+            //var page = one.PageHierarchyService.GetPages().FirstOrDefault(x => x.HierarchyType == HierarchyType.Page);
+            //var content = one.PageContentService.GetPageContent(page);
 
-            foreach (var pageHierarchyModel in one.PageHierarchyService.GetPages())
-            {
-                i++;
-                Console.WriteLine($"{pageHierarchyModel.Name}:{pageHierarchyModel.HierarchyType}:{pageHierarchyModel.PageLevel.GetValueOrDefault()}");
-            }
+            //foreach (var pageHierarchyModel in one.PageHierarchyService.GetPages())
+            //{
+            //    i++;
+            //    Console.WriteLine($"{pageHierarchyModel.Name}:{pageHierarchyModel.HierarchyType}:{pageHierarchyModel.PageLevel.GetValueOrDefault()}");
+            //}
 
-            Console.WriteLine(i);
+            //Console.WriteLine(i);
+
+            PlayWithTodayUpdater();
+        }
+
+        static void PlayWithTodayUpdater()
+        {
+            var todayPageSection = "{7DAC32A7-AD8B-FA3F-36C8-FD4777D1896F}{1}{B0}";
+            TodayPageCreator creator = new TodayPageCreator(new OneNote(), todayPageSection);
+            creator.Create();
+            
         }
     }
 }

@@ -30,6 +30,8 @@ namespace OneNoteApi
         XElement GetPageHierarchy(string id = null);
 
         XElement GetPageContent(string id, PageDetail detail);
+
+        void UpdatePageContent(string content, bool force = false, DateTime? dateExpectedLastModified = null);
     }
 
     /// <summary>
@@ -141,7 +143,42 @@ namespace OneNoteApi
             return null;
         }
 
+        public void UpdatePageContent(string content, bool force = false, DateTime? dateExpectedLastModified = null)
+        {
+            try
+            {
+                _onenote.UpdatePageContent(content, dateExpectedLastModified.GetValueOrDefault(DateTime.MinValue),XMLSchema.xs2013, force);
+            }
+            catch (Exception e)
+            {
+                var oneNote = ExceptionHelper.TryToWrap(e);
+                if (oneNote != null)
+                {
+                    throw oneNote;
+                }
 
+                throw;
+            }
+        }
+
+
+        //private T RunOnOneNote<T>(Func<IApplication, T> action)
+        //{
+        //    try
+        //    {
+        //        return action(_onenote);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        var oneNote = ExceptionHelper.TryToWrap(e);
+        //        if (oneNote != null)
+        //        {
+        //            throw oneNote;
+        //        }
+
+        //        throw;
+        //    }
+        //}
 
     }
 
