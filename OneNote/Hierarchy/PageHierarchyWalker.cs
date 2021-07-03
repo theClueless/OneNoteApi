@@ -75,7 +75,7 @@ namespace OneNoteApi.Hierarchy
                 var pageLevel = OneNoteXmlHelper.GetPageLevel(xElement);
                 HierarchyType hierarchyType = pageLevel.HasValue ?
                     HierarchyType.Page :
-                    xElement.Name.LocalName == PageTypes.Section ? HierarchyType.Section : HierarchyType.Notebook;
+                    xElement.Name.LocalName == HierarchyElementTypes.SectionName ? HierarchyType.Section : HierarchyType.Notebook;
 
                 var createdOn = OneNoteXmlHelper.GetAttribute(xElement, KnownAttributes.CreatedOnAttribute);
                 var lastModified = OneNoteXmlHelper.GetAttribute(xElement, KnownAttributes.LastModifiedOnAttribute);

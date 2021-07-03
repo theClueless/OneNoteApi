@@ -28,7 +28,13 @@ namespace OneNoteApi.Mine
 
         private void CreateNewTodayPage(List<OE> movedItems)
         {
-            throw new System.NotImplementedException();
+            // to sort page
+            var toSortPage = _oneNote.PageHierarchyService.GetPages(_todayPageSectionId).FirstOrDefault(x => x.Name == "To Sort");
+            var newPageId = _oneNote.PageHierarchyService.AddPageToSection(_todayPageSectionId, toSortPage);
+
+            var newPage = _oneNote.PageHierarchyService.GetPages(_todayPageSectionId).FirstOrDefault(x => x.Id == newPageId);
+
+            // add stuff to page
         }
 
         private List<OE> FindAndUpdateTodayPage()

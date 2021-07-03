@@ -34,6 +34,8 @@ namespace OneNoteApi
         XElement GetPageContent(string id, PageDetail detail);
 
         void UpdatePageContent(string content, bool force = false, DateTime? dateExpectedLastModified = null);
+
+        string CreateNewPage(string sectionId, NewPageStyle style = NewPageStyle.Default);
     }
 
     /// <summary>
@@ -181,24 +183,34 @@ namespace OneNoteApi
             }
         }
 
+        public string CreateNewPage(string sectionId, NewPageStyle style = NewPageStyle.Default)
+        {
+            return RunOnOneNote(app =>
+            {
+                app.CreateNewPage(sectionId, out string newPageId,
+                    (Microsoft.Office.Interop.OneNote.NewPageStyle) style);
+                return newPageId;
+            });
+        }
 
-        //private T RunOnOneNote<T>(Func<IApplication, T> action)
-        //{
-        //    try
-        //    {
-        //        return action(_onenote);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        var oneNote = ExceptionHelper.TryToWrap(e);
-        //        if (oneNote != null)
-        //        {
-        //            throw oneNote;
-        //        }
 
-        //        throw;
-        //    }
-        //}
+        private T RunOnOneNote<T>(Func<IApplication, T> action)
+        {
+            try
+            {
+                return action(_onenote);
+            }
+            catch (Exception e)
+            {
+                var oneNote = ExceptionHelper.TryToWrap(e);
+                if (oneNote != null)
+                {
+                    throw oneNote;
+                }
+
+                throw;
+            }
+        }
 
     }
 
@@ -212,5 +224,12 @@ namespace OneNoteApi
         FileType = PageInfo.piFileType,
         Selection = PageInfo.piSelection,
         SelectionFileType = PageInfo.piSelectionFileType
+    }
+
+    public enum NewPageStyle
+    {
+        Default = Microsoft.Office.Interop.OneNote.NewPageStyle.npsDefault,
+        BlankWithTitle = Microsoft.Office.Interop.OneNote.NewPageStyle.npsBlankPageWithTitle,
+        BlankPageNoTitle = Microsoft.Office.Interop.OneNote.NewPageStyle.npsBlankPageNoTitle,
     }
 }

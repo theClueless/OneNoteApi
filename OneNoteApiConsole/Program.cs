@@ -11,7 +11,9 @@ namespace OneNoteApiConsole
     {
         static void Main(string[] args)
         {
-            //var one = new OneNote();
+       //     var one = new OneNote();
+       //     var page = one.PageHierarchyService.GetPages("{7DAC32A7-AD8B-FA3F-36C8-FD4777D1896F}{1}{B0}").Skip(3).First();
+       //     one.PageHierarchyService.AddPageToSection("{7DAC32A7-AD8B-FA3F-36C8-FD4777D1896F}{1}{B0}", page);
             //int i = 0;
 
             //var page = one.PageHierarchyService.GetPages().FirstOrDefault(x => x.HierarchyType == HierarchyType.Page);
@@ -25,7 +27,7 @@ namespace OneNoteApiConsole
 
             //Console.WriteLine(i);
 
-            PlayWithTodayUpdater();
+             PlayWithTodayUpdater();
         }
 
         static void PlayWithTodayUpdater()

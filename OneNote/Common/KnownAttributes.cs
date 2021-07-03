@@ -8,9 +8,4 @@
         public const string LastModifiedOnAttribute = "lastModifiedTime"; // TODO: change to datetime
         public const string PageLevelAttirbute = "pageLevel";
     }
-
-    public static class PageTypes
-    {
-        public const string Section = "Section";
-    }
 }
