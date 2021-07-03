@@ -5,6 +5,7 @@ namespace OneNoteApi.Mine
 {
     public class TodayPageFinder
     {
+        public const string TodayTitle = "- Today";
         private readonly IOneNote _oneNote;
         private readonly string _sectionId;
 
@@ -16,7 +17,7 @@ namespace OneNoteApi.Mine
 
         public PageHierarchyModel GetTodayPage()
         {
-            return _oneNote.PageHierarchyService.GetPages(_sectionId).First(x => x.Name.Contains("- Today"));
+            return _oneNote.PageHierarchyService.GetPages(_sectionId).First(x => x.Name.Contains(TodayTitle));
         }
     }
 }

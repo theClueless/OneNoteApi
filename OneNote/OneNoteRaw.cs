@@ -29,6 +29,8 @@ namespace OneNoteApi
         /// <returns>A Section element with Page children</returns>
         XElement GetPageHierarchy(string id = null);
 
+        void UpdateHierarchy(string content);
+
         XElement GetPageContent(string id, PageDetail detail);
 
         void UpdatePageContent(string content, bool force = false, DateTime? dateExpectedLastModified = null);
@@ -116,6 +118,24 @@ namespace OneNoteApi
 
 
             return null;
+        }
+
+        public void UpdateHierarchy(string content)
+        {
+            try
+            {
+                _onenote.UpdateHierarchy(content, XMLSchema.xs2013);
+            }
+            catch (Exception e)
+            {
+                var oneNote = ExceptionHelper.TryToWrap(e);
+                if (oneNote != null)
+                {
+                    throw oneNote;
+                }
+
+                throw;
+            }
         }
 
         public XElement GetPageContent(string id, PageDetail detail)

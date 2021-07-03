@@ -12,12 +12,8 @@ namespace OneNoteApi.PageContent
         public Page(XElement content)
         {
             Root = content ?? throw new ArgumentNullException(nameof(content));
-            PageId = content.Attribute(KnownAttributes.IDAttribute)?.Value;
+            PageId = Root.Attribute(KnownAttributes.IDAttribute)?.Value;
         }
-
-
-        public bool IsValid => Root != null;
-
 
         public string PageId { get; }
 
@@ -26,12 +22,20 @@ namespace OneNoteApi.PageContent
         /// </summary>
         public XElement Root { get; }
 
+        public string Name
+        {
+            get => Root.Attribute(KnownAttributes.NameAttribute).Value;
+            set => Root.Attribute(KnownAttributes.NameAttribute).Value = value;
+        }
+
+        public Title Title => new Title(Root.Element(PageElementTypes.Title));
+
         /// <summary>
         /// try to add a new tag definition and return it's index
         /// </summary>
         /// <param name="definition">the tag to define on the page</param>
         /// <returns>the index of the new\current tag</returns>
-        public int AddOrUpdateTagDefinition(TagDef definition)
+        public void AddOrUpdateTagDefinition(TagDef definition)
         {
             // go over tag def
             foreach (var xElement in Root
@@ -40,7 +44,7 @@ namespace OneNoteApi.PageContent
                 // verify for each if it is the same like the current tag definition
                 if (definition.Xml == xElement)
                 {
-                    return definition.Index;
+                    return;
                 }
             }
 
@@ -54,8 +58,6 @@ namespace OneNoteApi.PageContent
             {
                 Root.AddFirst(definition.Xml);
             }
-
-            return definition.Index;
         }
     }
 }

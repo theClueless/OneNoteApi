@@ -25,9 +25,9 @@ namespace OneNoteApi.PageContent
             CompletedAttribute.Value = "true";
         }
 
-        public void UpdateTagType(int newindex)
+        public void UpdateTagType(int newIndex)
         {   
-            IndexAttribute.Value = newindex.ToString();
+            IndexAttribute.Value = newIndex.ToString();
         }
 
 

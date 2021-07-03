@@ -33,19 +33,16 @@ namespace OneNoteApi.Mine
 
         private List<OE> FindAndUpdateTodayPage()
         {
-            TodayPageFinder pageFinder = new TodayPageFinder(_oneNote, _todayPageSectionId);
+            var pageFinder = new TodayPageFinder(_oneNote, _todayPageSectionId);
             var today = pageFinder.GetTodayPage();
             
             // get page content
             var todayPage = _oneNote.PageContentService.GetPageContent(today);
-            if (!todayPage.IsValid)
-            {
-                // do something
-            }
             
             var res = UpdateTodayPage(todayPage);
 
             // rename today page
+
 
             return res;
         }
@@ -55,7 +52,35 @@ namespace OneNoteApi.Mine
             // Todo section
             var todoOe = FindTodoSection(todayPage);
 
-            var MoveToNewToday = new List<OE>();
+            var moveToNewToday = CollectUnfinishedTasks(todoOe);
+
+            ConvertAndUpdateAllTags(todayPage);
+
+            RenameTodayPage(todayPage);
+
+            // update page after changes
+            _oneNote.PageContentService.UpdatePageContent(todayPage,true);
+
+            return moveToNewToday;
+        }
+
+        private void RenameTodayPage(Page todayPage)
+        {
+            // change name 
+            var name = todayPage.Name;
+            var newName = name.Replace(TodayPageFinder.TodayTitle, string.Empty);
+            todayPage.Name = newName;
+
+            // change title
+            var titleText = todayPage.Title.Content.Text;
+            var current = titleText.Value;
+            var newTitleText = current.Replace(TodayPageFinder.TodayTitle, string.Empty);
+            titleText.Value = newTitleText;
+        }
+
+        private static List<OE> CollectUnfinishedTasks(OE todoOe)
+        {
+            var moveToNewToday = new List<OE>();
 
             // go over all children and collect unfinished
             foreach (var todoOeChild in todoOe.Children)
@@ -63,21 +88,28 @@ namespace OneNoteApi.Mine
                 // check if completed 
                 var tag = todoOeChild.Tag;
                 if (tag.Exists)
-                { // has tag
+                {
+                    // has tag
                     if (!tag.IsCompleted)
-                    { // collect OE
-                        MoveToNewToday.Add(todoOeChild.Clone());
+                    {
+                        // collect OE
+                        moveToNewToday.Add(todoOeChild.Clone());
                     }
                 }
             }
 
+            return moveToNewToday;
+        }
+
+        private static void ConvertAndUpdateAllTags(Page todayPage)
+        {
             // go over all tags in page and update them
             foreach (var xElement in todayPage.Root.Descendants(PageElementTypes.Tag))
             {
                 var tag = new Tag(xElement);
                 if (tag.TagType == KnownTags.ToDoTagIndex)
                 {
-                    tag.UpdateTagType(tag.IsCompleted ? KnownTags.HappySmilyTagIndex : KnownTags.SadSmilyTagIndex );
+                    tag.UpdateTagType(tag.IsCompleted ? KnownTags.HappySmilyTagIndex : KnownTags.SadSmilyTagIndex);
                     tag.Complete();
                 }
             }
@@ -85,11 +117,9 @@ namespace OneNoteApi.Mine
             // update TagDef
             todayPage.AddOrUpdateTagDefinition(KnownTags.HappySmilyTag);
             todayPage.AddOrUpdateTagDefinition(KnownTags.SadSmilyTag);
-
-            _oneNote.PageContentService.UpdatePageContent(todayPage,true);
-            return MoveToNewToday;
         }
-         private OE FindTodoSection(Page todayPage)
+
+        private OE FindTodoSection(Page todayPage)
         {
             var todoText = todayPage.Root.Descendants(PageElementTypes.Text).FirstOrDefault(x => x.Value.Contains("To Do - "));
 //            todayPage.Root.Descendants(PageElementTypes.Text).FirstOrDefault(x => x.Value == @"<![CDATA[<span

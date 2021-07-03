@@ -79,7 +79,7 @@ namespace OneNoteApi.Hierarchy
 
                 var createdOn = OneNoteXmlHelper.GetAttribute(xElement, KnownAttributes.CreatedOnAttribute);
                 var lastModified = OneNoteXmlHelper.GetAttribute(xElement, KnownAttributes.LastModifiedOnAttribute);
-                yield return new PageHierarchyModel(name, id, createdOn, lastModified, pageLevel, hierarchyType);
+                yield return new PageHierarchyModel(name, id, createdOn, lastModified, pageLevel, hierarchyType, xElement);
             }
         }
     }

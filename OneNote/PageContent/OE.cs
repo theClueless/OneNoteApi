@@ -23,6 +23,8 @@ namespace OneNoteApi.PageContent
 
         public Tag Tag => new Tag(this._xml.Element(PageElementTypes.Tag));
 
+        public Text Text => new Text(this._xml.Element(PageElementTypes.Text));
+
         public XElement RawXml => _xml;
 
         public OE Clone()

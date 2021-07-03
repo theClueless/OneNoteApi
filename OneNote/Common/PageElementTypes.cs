@@ -6,11 +6,12 @@ namespace OneNoteApi.Common
     {
         public const string OneNoteNamespace = @"http://schemas.microsoft.com/office/onenote/2013/onenote";
         public const string OneNoteNamespaceName = "one";
-        public const string TextName = "T";
-        public const string OeName = "OE";
-        public const string OeChildrenName = "OEChildren";
-        public const string TagName =  "Tag";
-        public const string TagDefName = "TagDef";
+        internal const string TextName = "T";
+        internal const string OeName = "OE";
+        internal const string OeChildrenName = "OEChildren";
+        internal const string TagName =  "Tag";
+        internal const string TagDefName = "TagDef";
+        internal const string TitleName = "Title";
 
 
         static PageElementTypes()
@@ -21,6 +22,7 @@ namespace OneNoteApi.Common
             OeChildren = oneNoteNamespace + OeChildrenName;
             Tag = oneNoteNamespace + TagName;
             TagDef = oneNoteNamespace + TagDefName;
+            Title = oneNoteNamespace + TitleName;
         }
 
         public static XName Text { get; }
@@ -28,5 +30,6 @@ namespace OneNoteApi.Common
         public static XName OeChildren { get; }
         public static XName Tag { get; }
         public static XName TagDef { get; }
+        public static XName Title { get; }
     }
 }
