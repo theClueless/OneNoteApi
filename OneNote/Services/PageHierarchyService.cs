@@ -81,34 +81,34 @@ namespace OneNoteApi.Services
             return id;
         }
 
-        private XElement CreateNewPageForSection(string sectionId, string name)
-        {
+        //private XElement CreateNewPageForSection(string sectionId, string name)
+        //{
 
-            var pageId = new IdGenerator().GeneratePageId(sectionId);
+        //    var pageId = new IdGenerator().GeneratePageId(sectionId);
 
-            var xml = new XElement(HierarchyElementTypes.Page,
-                new XAttribute(KnownAttributes.IDAttribute, pageId),
-                new XAttribute(KnownAttributes.NameAttribute, name),
-                new XAttribute(KnownAttributes.PageLevelAttirbute, "1"),
-                new XAttribute(KnownAttributes.CreatedOnAttribute, DateTime.UtcNow),
-                new XAttribute(KnownAttributes.LastModifiedOnAttribute, DateTime.UtcNow)
-                );
-            return xml;
-        }
+        //    var xml = new XElement(HierarchyElementTypes.Page,
+        //        new XAttribute(KnownAttributes.IDAttribute, pageId),
+        //        new XAttribute(KnownAttributes.NameAttribute, name),
+        //        new XAttribute(KnownAttributes.PageLevelAttirbute, "1"),
+        //        new XAttribute(KnownAttributes.CreatedOnAttribute, DateTime.UtcNow),
+        //        new XAttribute(KnownAttributes.LastModifiedOnAttribute, DateTime.UtcNow)
+        //        );
+        //    return xml;
+        //}
     }
 
-    public class IdGenerator
-    {
-        public string GeneratePageId(string sectionId)
-        {
-            // one note pattern => violates pattern constraint of
-            // '\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\}\{[0-9]+\}\{[A-Z][0-9]+\}'.
-            var id = "E" + DateTime.Now.Ticks + Guid.NewGuid().GetHashCode();
-            var sectionHeaderId = sectionId.Remove(sectionId.LastIndexOf('{'));
-            // Page:    {2672206C-8D20-4A9B-A381-246FCC6C9622}{1}{E19490274089480943022320162594490596383860851}
-            // Section: {2672206C-8D20-4A9B-A381-246FCC6C9622}{1}{B0}
+    //public class IdGenerator
+    //{
+    //    public string GeneratePageId(string sectionId)
+    //    {
+    //        // one note pattern => violates pattern constraint of
+    //        // '\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\}\{[0-9]+\}\{[A-Z][0-9]+\}'.
+    //        var id = "E" + DateTime.Now.Ticks + Guid.NewGuid().GetHashCode();
+    //        var sectionHeaderId = sectionId.Remove(sectionId.LastIndexOf('{'));
+    //        // Page:    {2672206C-8D20-4A9B-A381-246FCC6C9622}{1}{E19490274089480943022320162594490596383860851}
+    //        // Section: {2672206C-8D20-4A9B-A381-246FCC6C9622}{1}{B0}
 
-            return $"{sectionHeaderId}{{{id}}}";
-        }
-    }
+    //        return $"{sectionHeaderId}{{{id}}}";
+    //    }
+    //}
 }

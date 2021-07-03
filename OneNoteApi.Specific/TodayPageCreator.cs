@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using OneNoteApi.Common;
+using OneNoteApi.Hierarchy;
 using OneNoteApi.PageContent;
 
 namespace OneNoteApi.Mine
@@ -21,7 +23,7 @@ namespace OneNoteApi.Mine
         {
             // Find the last today page - rename it.
             var movedItems = FindAndUpdateTodayPage();
-            
+
             //Create a new today page
             CreateNewTodayPage(movedItems);
         }
@@ -33,22 +35,38 @@ namespace OneNoteApi.Mine
             var newPageId = _oneNote.PageHierarchyService.AddPageToSection(_todayPageSectionId, toSortPage);
 
             var newPage = _oneNote.PageHierarchyService.GetPages(_todayPageSectionId).FirstOrDefault(x => x.Id == newPageId);
+            
+            UpdateNewTodayPage(newPage, movedItems);
+        }
 
-            // add stuff to page
+        private void UpdateNewTodayPage(PageHierarchyModel newPage, List<OE> movedItems)
+        {
+            // get page content
+            var newPageContent = _oneNote.PageContentService.GetPageContent(newPage);
+            var todoSection = FindTodoSection(newPageContent);
+
+            // add stuff to page + and rename it to be the new today
+            foreach (var oe in movedItems)
+            {
+                todoSection.RawXml.Element(PageElementTypes.OeChildren).Add(oe.RawXml);
+            }
+
+            // 30/6/2021 - Today
+            var newName = DateTime.Today.ToString("dd/MM/yyyy") + " "+ TodayPageFinder.TodayTitle;
+            RenamePageAndTitle(newPageContent, newName);
+
+            _oneNote.PageContentService.UpdatePageContent(newPageContent, true);
         }
 
         private List<OE> FindAndUpdateTodayPage()
         {
             var pageFinder = new TodayPageFinder(_oneNote, _todayPageSectionId);
             var today = pageFinder.GetTodayPage();
-            
+
             // get page content
             var todayPage = _oneNote.PageContentService.GetPageContent(today);
-            
+
             var res = UpdateTodayPage(todayPage);
-
-            // rename today page
-
 
             return res;
         }
@@ -65,7 +83,7 @@ namespace OneNoteApi.Mine
             RenameTodayPage(todayPage);
 
             // update page after changes
-            _oneNote.PageContentService.UpdatePageContent(todayPage,true);
+            _oneNote.PageContentService.UpdatePageContent(todayPage, true);
 
             return moveToNewToday;
         }
@@ -75,13 +93,17 @@ namespace OneNoteApi.Mine
             // change name 
             var name = todayPage.Name;
             var newName = name.Replace(TodayPageFinder.TodayTitle, string.Empty);
-            todayPage.Name = newName;
+            RenamePageAndTitle(todayPage, newName);
+        }
+
+        private void RenamePageAndTitle(Page page, string newName)
+        {
+            // change name 
+            page.Name = newName;
 
             // change title
-            var titleText = todayPage.Title.Content.Text;
-            var current = titleText.Value;
-            var newTitleText = current.Replace(TodayPageFinder.TodayTitle, string.Empty);
-            titleText.Value = newTitleText;
+            var titleText = page.Title.Content.Text;
+            titleText.Value = newName;
         }
 
         private static List<OE> CollectUnfinishedTasks(OE todoOe)
@@ -128,8 +150,8 @@ namespace OneNoteApi.Mine
         private OE FindTodoSection(Page todayPage)
         {
             var todoText = todayPage.Root.Descendants(PageElementTypes.Text).FirstOrDefault(x => x.Value.Contains("To Do - "));
-//            todayPage.Root.Descendants(PageElementTypes.Text).FirstOrDefault(x => x.Value == @"<![CDATA[<span
-//style='font-weight:bold'>To Do - </span>]]>");
+            //            todayPage.Root.Descendants(PageElementTypes.Text).FirstOrDefault(x => x.Value == @"<![CDATA[<span
+            //style='font-weight:bold'>To Do - </span>]]>");
             var todo = todoText?.Parent;
             return new OE(todo);
         }
