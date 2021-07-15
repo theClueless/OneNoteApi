@@ -25,10 +25,13 @@ namespace OneNoteApi.Mine
             var movedItems = FindAndUpdateTodayPage();
 
             //Create a new today page
-            CreateNewTodayPage(movedItems);
+            var newToday = CreateNewTodayPage(movedItems);
+
+            // navigate to the new today
+            _oneNote.PageNavigatorService.NavigateTo(newToday);
         }
 
-        private void CreateNewTodayPage(List<OE> movedItems)
+        private PageHierarchyModel CreateNewTodayPage(List<OE> movedItems)
         {
             // to sort page
             var toSortPage = _oneNote.PageHierarchyService.GetPages(_todayPageSectionId).FirstOrDefault(x => x.Name == "To Sort");
@@ -37,6 +40,8 @@ namespace OneNoteApi.Mine
             var newPage = _oneNote.PageHierarchyService.GetPages(_todayPageSectionId).FirstOrDefault(x => x.Id == newPageId);
             
             UpdateNewTodayPage(newPage, movedItems);
+
+            return newPage;
         }
 
         private void UpdateNewTodayPage(PageHierarchyModel newPage, List<OE> movedItems)

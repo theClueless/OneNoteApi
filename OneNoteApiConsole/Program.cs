@@ -11,8 +11,8 @@ namespace OneNoteApiConsole
     {
         static void Main(string[] args)
         {
-       //     var one = new OneNote();
-       //     var page = one.PageHierarchyService.GetPages("{7DAC32A7-AD8B-FA3F-36C8-FD4777D1896F}{1}{B0}").Skip(3).First();
+            var one = new OneNote();
+            var page = one.PageHierarchyService.GetPages().ToList();
        //     one.PageHierarchyService.AddPageToSection("{7DAC32A7-AD8B-FA3F-36C8-FD4777D1896F}{1}{B0}", page);
             //int i = 0;
 
@@ -33,9 +33,9 @@ namespace OneNoteApiConsole
         static void PlayWithTodayUpdater()
         {
             //var todayPageSection = "{7DAC32A7-AD8B-FA3F-36C8-FD4777D1896F}{1}{B0}"; // quick notes
-            var todayPageSection = "{2672206C-8D20-4A9B-A381-246FCC6C9622}{1}{B0}"; // team section
-            TodayPageCreator creator = new TodayPageCreator(new OneNote(), todayPageSection);
-            creator.Create();
+            //var todayPageSection = "{2672206C-8D20-4A9B-A381-246FCC6C9622}{1}{B0}"; // team section
+            //TodayPageCreator creator = new TodayPageCreator(new OneNote(), todayPageSection);
+            //creator.Create();
             
         }
     }
