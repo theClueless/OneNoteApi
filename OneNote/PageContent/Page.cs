@@ -28,7 +28,7 @@ namespace OneNoteApi.PageContent
             set => Root.Attribute(KnownAttributes.NameAttribute).Value = value;
         }
 
-        public Title Title => new Title(Root.Element(PageElementTypes.Title));
+        public Title Title => new(Root.Element(PageElementTypes.Title));
 
         /// <summary>
         /// try to add a new tag definition and return it's index

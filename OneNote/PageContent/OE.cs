@@ -21,15 +21,15 @@ namespace OneNoteApi.PageContent
                 .Elements(PageElementTypes.Oe)
                 .Select(x => new OE(x));
 
-        public Tag Tag => new Tag(this._xml.Element(PageElementTypes.Tag));
+        public Tag Tag => new(this._xml.Element(PageElementTypes.Tag));
 
-        public Text Text => new Text(this._xml.Element(PageElementTypes.Text));
+        public Text Text => new(this._xml.Element(PageElementTypes.Text));
 
         public XElement RawXml => _xml;
 
         public OE Clone()
         {
-            return new OE(new XElement(_xml));
+            return new(new XElement(_xml));
         }
     }
 }

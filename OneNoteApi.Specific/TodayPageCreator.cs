@@ -93,7 +93,7 @@ namespace OneNoteApi.Mine
             return moveToNewToday;
         }
 
-        private void RenameTodayPage(Page todayPage)
+        private static void RenameTodayPage(Page todayPage)
         {
             // change name 
             var name = todayPage.Name;
@@ -101,7 +101,7 @@ namespace OneNoteApi.Mine
             RenamePageAndTitle(todayPage, newName);
         }
 
-        private void RenamePageAndTitle(Page page, string newName)
+        private static void RenamePageAndTitle(Page page, string newName)
         {
             // change name 
             page.Name = newName;
@@ -152,7 +152,7 @@ namespace OneNoteApi.Mine
             todayPage.AddOrUpdateTagDefinition(KnownTags.SadSmilyTag);
         }
 
-        private OE FindTodoSection(Page todayPage)
+        private static OE FindTodoSection(Page todayPage)
         {
             var todoText = todayPage.Root.Descendants(PageElementTypes.Text).FirstOrDefault(x => x.Value.Contains("To Do - "));
             //            todayPage.Root.Descendants(PageElementTypes.Text).FirstOrDefault(x => x.Value == @"<![CDATA[<span

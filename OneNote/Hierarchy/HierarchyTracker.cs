@@ -10,8 +10,8 @@ namespace OneNoteApi.Hierarchy
     /// </summary>
     public class HierarchyTracker
     {
-        private readonly Stack<string> _stack = new Stack<string>();
-        private readonly StringBuilder _builder = new StringBuilder(500);
+        private readonly Stack<string> _stack = new();
+        private readonly StringBuilder _builder = new(500);
 
         /// <summary>
         /// Get the next element and return it's hierarchy

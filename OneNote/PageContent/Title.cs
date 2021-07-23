@@ -15,7 +15,7 @@ namespace OneNoteApi.PageContent
 
         public bool Exists => _xml != null;
 
-        public OE Content => new OE(_xml.Element(PageElementTypes.Oe));
+        public OE Content => new(_xml.Element(PageElementTypes.Oe));
 
         public string Language => _xml.Attribute(LanguageAttributeName)?.Value;
     }
