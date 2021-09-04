@@ -12,7 +12,8 @@ namespace OneNoteApi.Common
         internal const string TagName =  "Tag";
         internal const string TagDefName = "TagDef";
         internal const string TitleName = "Title";
-
+        internal const string PositionName = "Position";
+        internal const string OutlineName = "Outline";
 
         static PageElementTypes()
         {
@@ -23,6 +24,8 @@ namespace OneNoteApi.Common
             Tag = oneNoteNamespace + TagName;
             TagDef = oneNoteNamespace + TagDefName;
             Title = oneNoteNamespace + TitleName;
+            Position = oneNoteNamespace + PositionName;
+            Outline = oneNoteNamespace + OutlineName;
         }
 
         public static XName Text { get; }
@@ -31,5 +34,8 @@ namespace OneNoteApi.Common
         public static XName Tag { get; }
         public static XName TagDef { get; }
         public static XName Title { get; }
+        public static XName Position { get; }
+        public static XName Outline { get; }
+
     }
 }

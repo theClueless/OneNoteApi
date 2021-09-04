@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using OneNoteApi.Common;
@@ -30,6 +31,12 @@ namespace OneNoteApi.PageContent
 
         public Title Title => new(Root.Element(PageElementTypes.Title));
 
+        /// <summary>
+        /// Get the page outlines (will recreate them every time this is asked for)
+        /// </summary>
+        public IEnumerable<Outline> Outlines => this.Root.Elements(PageElementTypes.Outline)
+            .Select(x=> new Outline(x));
+         
         /// <summary>
         /// try to add a new tag definition and return it's index
         /// </summary>
