@@ -39,4 +39,18 @@ namespace OneNoteApi.PageContent
             set => _xml.Value = value;
         }
     }
+
+    public struct Bullet
+    {
+        public const string BulletNumberAttributeName = "bullet";
+        private readonly XElement _xml;
+        public Bullet(XElement xml)
+        {
+            _xml = xml;
+        }
+
+        public bool Exists => _xml != null;
+
+        public string BulletNumber => _xml.Attribute(BulletNumberAttributeName)?.Value;
+    }
 }

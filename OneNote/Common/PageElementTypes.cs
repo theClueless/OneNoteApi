@@ -14,6 +14,8 @@ namespace OneNoteApi.Common
         internal const string TitleName = "Title";
         internal const string PositionName = "Position";
         internal const string OutlineName = "Outline";
+        internal const string ListName = "List";
+        internal const string BulletName = "Bullet";
 
         static PageElementTypes()
         {
@@ -26,6 +28,8 @@ namespace OneNoteApi.Common
             Title = oneNoteNamespace + TitleName;
             Position = oneNoteNamespace + PositionName;
             Outline = oneNoteNamespace + OutlineName;
+            List = oneNoteNamespace + ListName;
+            Bullet = oneNoteNamespace + BulletName;
         }
 
         public static XName Text { get; }
@@ -36,6 +40,8 @@ namespace OneNoteApi.Common
         public static XName Title { get; }
         public static XName Position { get; }
         public static XName Outline { get; }
+        public static XName List { get; }
+        public static XName Bullet { get; }
 
     }
 }

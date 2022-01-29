@@ -17,7 +17,7 @@ namespace OneNoteApi.PageContent
         }
 
         public IEnumerable<OE> Children =>
-            _xml.Element(PageElementTypes.OeChildren)?
+            OeChildrenElement()?
                 .Elements(PageElementTypes.Oe)
                 .Select(x => new OE(x));
 
@@ -30,6 +30,21 @@ namespace OneNoteApi.PageContent
         public OE Clone()
         {
             return new(new XElement(_xml));
+        }
+
+        /// <summary>
+        /// Remove the child XML from the parent resulting in removal during update of the page
+        /// </summary>
+        public void RemoveFromParent()
+        {
+            _xml.Remove();
+        }
+
+        private XElement OeChildrenElement() => _xml.Element(PageElementTypes.OeChildren);
+
+        public void AddOEChild(OE newChild)
+        {
+            OeChildrenElement().Add(newChild.RawXml);
         }
     }
 }

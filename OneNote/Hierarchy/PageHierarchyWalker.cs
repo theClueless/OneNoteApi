@@ -63,7 +63,7 @@ namespace OneNoteApi.Hierarchy
 
         public IEnumerable<PageHierarchyModel> GetElements()
         {
-            foreach (var xElement in _xml.Descendants())
+            foreach (var xElement in _xml.DescendantsAndSelf())
             {
                 var id = OneNoteXmlHelper.GetId(xElement);
                 if (id == null)
