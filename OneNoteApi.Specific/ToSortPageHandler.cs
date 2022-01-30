@@ -24,14 +24,8 @@ namespace OneNoteApi.Mine
 
             var list = GetCurrentTasksListOe(pageContent);
 
-            // build new task object
-            var newTask = OeBuilder.Build()
-                .WithTag(KnownTags.ToDoTagIndex)
-                .WithBullet(3)
-                .WithText(taskContent);
-            
-            // add new child
-            list.AddOEChild(newTask);
+            TaskListHandler listHandler = new (list);
+            listHandler.AddNewTask(taskContent);
             
             // update page -
             _oneNote.PageContentService.UpdatePageContent(pageContent, true);
