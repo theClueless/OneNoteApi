@@ -143,7 +143,7 @@ namespace OneNoteApi.Mine
                 if (tag.TagType == KnownTags.ToDoTagIndex)
                 {
                     tag.UpdateTagType(tag.IsCompleted ? KnownTags.HappySmilyTagIndex : KnownTags.SadSmilyTagIndex);
-                    tag.Complete();
+                    tag.SetState(true);
                 }
             }
 

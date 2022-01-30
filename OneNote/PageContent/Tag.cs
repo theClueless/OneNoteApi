@@ -20,9 +20,13 @@ namespace OneNoteApi.PageContent
 
         public bool IsCompleted => Convert.ToBoolean(CompletedAttribute.Value);
 
-        public void Complete()
+        /// <summary>
+        /// set the state of the tag, true for complete false for incomplete.
+        /// </summary>
+        /// <param name="newState"></param>
+        public void SetState(bool newState)
         {
-            CompletedAttribute.Value = "true";
+            CompletedAttribute.Value = newState ? "true" : "false";
         }
 
         public void UpdateTagType(int newIndex)

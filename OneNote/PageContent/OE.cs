@@ -42,9 +42,17 @@ namespace OneNoteApi.PageContent
 
         private XElement OeChildrenElement() => _xml.Element(PageElementTypes.OeChildren);
 
-        public void AddOEChild(OE newChild)
+        public void AddOEChild(OE newChild, bool addFirst = false)
         {
-            OeChildrenElement().Add(newChild.RawXml);
+            if (addFirst)
+            {
+                OeChildrenElement().AddFirst(newChild.RawXml);
+            }
+            else
+            {
+                OeChildrenElement().Add(newChild.RawXml);
+            }
+            
         }
     }
 }
