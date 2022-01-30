@@ -18,31 +18,23 @@ namespace OneNoteApi.Mine
             _toSortPageId = toSortPageId;
         }
 
-        public void AddNewTask(string taskContent)
+        private ToSortPage GeToSortPage()
         {
             var pageContent = GetPageContent();
+            ToSortPage toSortPage = new(pageContent);
+            return toSortPage;
+        }
 
-            var list = GetCurrentTasksListOe(pageContent);
+        public void AddNewTask(string taskContent)
+        {
+            var toSortPage = GeToSortPage();
+            toSortPage.ToSortTasks.AddNewTask(taskContent);
 
-            TaskListHandler listHandler = new (list);
-            listHandler.AddNewTask(taskContent);
-            
             // update page -
-            _oneNote.PageContentService.UpdatePageContent(pageContent, true);
+            _oneNote.PageContentService.UpdatePageContent(toSortPage.Page, true);
         }
 
-        private OE GetCurrentTasksListOe(Page pageContent)
-        {
-            // find outline closest to start
-            var outline = FindClosestToPageStart(pageContent.Outlines);
-            var listHead = outline.Children.First();
-            return listHead;
-        }
-
-        private Outline FindClosestToPageStart(IEnumerable<Outline> outlines)
-        {
-            return outlines.OrderBy(x => x.Position.X + x.Position.Y).FirstOrDefault();
-        }
+   
 
         private string GetPageId()
         {
@@ -71,6 +63,40 @@ namespace OneNoteApi.Mine
             var pageModel = pages.First();
             var pageContent = _oneNote.PageContentService.GetPageContent(pageModel);
             return pageContent;
+        }
+    }
+
+    internal class ToSortPage
+    {
+        public readonly Page Page;
+
+        public TaskListHandler ToSortTasks => GetToSortTasks();
+
+        public TaskListHandler ArcvhiedTasks => GetToSortTasks();
+
+        public ToSortPage(Page page)
+        {
+            Page = page;
+        }
+
+        private TaskListHandler GetToSortTasks()
+        {
+            var list = GetCurrentTasksListOe(Page);
+            TaskListHandler listHandler = new(list);
+            return listHandler;
+        }
+
+        private OE GetCurrentTasksListOe(Page pageContent)
+        {
+            // find outline closest to start
+            var outline = FindClosestToPageStart(pageContent.Outlines);
+            var listHead = outline.Children.First();
+            return listHead;
+        }
+
+        private Outline FindClosestToPageStart(IEnumerable<Outline> outlines)
+        {
+            return outlines.OrderBy(x => x.Position.X + x.Position.Y).FirstOrDefault();
         }
     }
 }
