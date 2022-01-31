@@ -38,6 +38,8 @@ namespace OneNoteApi.PageContent
             get => _xml.Value;
             set => _xml.Value = value;
         }
+
+        public string GetValueIfExists() => Exists ? Value : null;
     }
 
     public struct Bullet

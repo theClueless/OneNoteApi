@@ -96,6 +96,6 @@ namespace OneNoteApi.Mine
 
         public bool HasSubTasks => Oe.HasChildren;
 
-
+        public string Content => Oe.Text.GetValueIfExists();
     }
 }

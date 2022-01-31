@@ -48,6 +48,26 @@ namespace OneNoteApi.Mine
             _oneNote.PageContentService.UpdatePageContent(toSortPage.Page, true);
         }
 
+        public void CompleteTask(string taskContent)
+        {
+            var toSortPage = GetToSortPage();
+            var task =  toSortPage.ToSortTasks.Tasks.FirstOrDefault(x=>x.IsValid && !x.IsCompleted && x.Content == taskContent);
+            if (task == null)
+            {
+                return;
+            }
+
+            task.IsCompleted = true;
+
+            // update page -
+            _oneNote.PageContentService.UpdatePageContent(toSortPage.Page, true);
+        }
+
+        public IReadOnlyList<TaskListObject> GetTasks()
+        {
+            var toSortPage = GetToSortPage();
+            return toSortPage.ToSortTasks.Tasks;
+        }
 
 
         private string GetPageId()
