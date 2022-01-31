@@ -16,6 +16,8 @@ namespace OneNoteApi.PageContent
             _xml = xml;
         }
 
+        public bool HasChildren => OeChildrenElement() != null;
+
         public IEnumerable<OE> Children =>
             OeChildrenElement()?
                 .Elements(PageElementTypes.Oe)

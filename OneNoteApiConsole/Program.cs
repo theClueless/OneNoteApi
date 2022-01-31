@@ -14,7 +14,8 @@ namespace OneNoteApiConsole
             var one = new OneNote();
             // var toSort = one.PageHierarchyService.GetPages().FirstOrDefault(x => x.Name == "To Sort"); // {1362B548-DA66-0234-1438-D61F6A4096C3}{1}{E17810630182128276241987605806990932121981}
             var tosortHandler = new ToSortPageHandler(one); //@"{1362B548-DA66-0234-1438-D61F6A4096C3}{1}{E17810630182128276241987605806990932121981}");
-            tosortHandler.AddNewTask("this is another new task");
+            // tosortHandler.AddNewTask("this is another new task");
+            tosortHandler.ArchiveCompletedTasks();
             
             //var content = one.PageContentService.GetPageContent(toSort);
             //var xml = content.Root;

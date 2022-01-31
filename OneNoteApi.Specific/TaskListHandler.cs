@@ -46,10 +46,22 @@ namespace OneNoteApi.Mine
                 .WithBullet(3)
                 .WithText(taskContent);
 
-            _tasks.Insert(0, new TaskListObject(newTask));
+            AddNewTask(new TaskListObject(newTask), addFirst);
+        }
 
+        public void AddNewTask(TaskListObject task, bool addFirst = false)
+        {
+            if (addFirst)
+            {
+                _tasks.Insert(0, task);
+            }
+            else
+            {
+                _tasks.Add(task);
+            }
+            
             // add new child
-            _content.AddOEChild(newTask, addFirst);
+            _content.AddOEChild(task.Oe, addFirst);
         }
 
         public void RemoveTask(TaskListObject task)
@@ -59,7 +71,7 @@ namespace OneNoteApi.Mine
                 throw new Exception("Unknown task");
             }
 
-            task._oe.RemoveFromParent();
+            task.Oe.RemoveFromParent();
             _tasks.Remove(task);
         }
 
@@ -67,21 +79,23 @@ namespace OneNoteApi.Mine
 
     public class TaskListObject
     {
-        internal readonly OE _oe;
+        internal readonly OE Oe;
 
         public TaskListObject(OE oe)
         {
-            _oe = oe;
+            Oe = oe;
         }
+
+        public bool IsValid => Oe.Tag.Exists;
 
         public bool IsCompleted
         {
-            get => _oe.Tag.IsCompleted;
-            set => _oe.Tag.SetState(value);
+            get => Oe.Tag.IsCompleted;
+            set => Oe.Tag.SetState(value);
         }
 
-        public bool HasSubTasks => _oe.Children.Any();
-        
+        public bool HasSubTasks => Oe.HasChildren;
+
 
     }
 }

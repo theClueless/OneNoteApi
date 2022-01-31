@@ -18,7 +18,7 @@ namespace OneNoteApi.Mine
             _toSortPageId = toSortPageId;
         }
 
-        private ToSortPage GeToSortPage()
+        private ToSortPage GetToSortPage()
         {
             var pageContent = GetPageContent();
             ToSortPage toSortPage = new(pageContent);
@@ -27,14 +27,28 @@ namespace OneNoteApi.Mine
 
         public void AddNewTask(string taskContent)
         {
-            var toSortPage = GeToSortPage();
+            var toSortPage = GetToSortPage();
             toSortPage.ToSortTasks.AddNewTask(taskContent);
 
             // update page -
             _oneNote.PageContentService.UpdatePageContent(toSortPage.Page, true);
         }
 
-   
+        public void ArchiveCompletedTasks()
+        {
+            var toSortPage = GetToSortPage();
+            var taskToRemove = toSortPage.ToSortTasks.Tasks.Where(x => x.IsValid && x.IsCompleted).ToList();
+            foreach (var task in taskToRemove)
+            {
+                toSortPage.ToSortTasks.RemoveTask(task);
+                toSortPage.ArcvhiedTasks.AddNewTask(task, true);
+            }
+
+            // update page -
+            _oneNote.PageContentService.UpdatePageContent(toSortPage.Page, true);
+        }
+
+
 
         private string GetPageId()
         {
@@ -68,11 +82,22 @@ namespace OneNoteApi.Mine
 
     internal class ToSortPage
     {
+        private TaskListHandler _toSortTasks;
+        private TaskListHandler _arcvhiedTasks;
         public readonly Page Page;
 
-        public TaskListHandler ToSortTasks => GetToSortTasks();
 
-        public TaskListHandler ArcvhiedTasks => GetToSortTasks();
+        public TaskListHandler ToSortTasks => _toSortTasks ??= GetToSortTasks();
+
+        public TaskListHandler ArcvhiedTasks => _arcvhiedTasks ??= GetArcvhiedTasksTasks();
+
+        private TaskListHandler GetArcvhiedTasksTasks()
+        {
+            var biggestY = Page.Outlines.OrderByDescending(x => x.Position.Y).FirstOrDefault();
+            var listHead = biggestY.Children.First();
+            TaskListHandler listHandler = new(listHead);
+            return listHandler;
+        }
 
         public ToSortPage(Page page)
         {
