@@ -17,6 +17,8 @@ namespace OneNoteApi.Mine.SectionCrawler
         public double AvgTime { get; private set; }
         private int _updateAmount = -1;
 
+        public bool WasUpdatedOnce => _updateAmount > -1;
+
         public SectionTaskCrawler(IOneNote oneNoteServices, string sectionId)
         {
             _oneNoteServices = oneNoteServices;
