@@ -108,6 +108,7 @@ namespace OneNoteApiConsole
             Console.WriteLine($"First update: {crawler.AvgTime}" );
             int i = 0;
             Stopwatch sw = Stopwatch.StartNew();
+            var oe = crawler.State.PagesToTasks.First(x => x.Value.Any()).Value.First();
             while (true)
             {
                 sw.Restart();

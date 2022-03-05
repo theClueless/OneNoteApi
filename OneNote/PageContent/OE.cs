@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -26,6 +27,23 @@ namespace OneNoteApi.PageContent
         public Tag Tag => new(this._xml.Element(PageElementTypes.Tag));
 
         public Text Text => new(this._xml.Element(PageElementTypes.Text));
+
+        /// <summary>
+        /// Return the Id of the OE object
+        /// </summary>
+        public string ObjectId => this._xml.Attribute(KnownElementAttributes.ObjectIdAttribute)?.Value;
+
+        /// <summary>
+        /// Return the last modified time or null if time not found
+        /// </summary>
+        public DateTime? LastModifiedTime
+        {
+            get
+            {
+                var timeString = this._xml.Attribute(KnownElementAttributes.LastModifiedOnAttribute)?.Value;
+                return timeString == null ? null : DateTime.Parse(timeString);
+            } 
+        }
 
         public XElement RawXml => _xml;
 

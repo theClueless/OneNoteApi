@@ -1,4 +1,6 @@
-﻿namespace OneNoteApi.Common
+﻿using System.Data;
+
+namespace OneNoteApi.Common
 {
     public static class KnownAttributes
     {
